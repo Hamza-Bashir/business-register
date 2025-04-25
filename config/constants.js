@@ -6,7 +6,8 @@ module.exports = {
       NOT_FOUND: 404,
       CONFLICT: 409,
       REQUIRED: 400,
-      INTERNAL_SERVER_ERROR: 500
+      INTERNAL_SERVER_ERROR: 500,
+      PASSWORD_NOT_MATCH: 402
     },
     TEXTS: {
       LOC_EXIST: "User has already subrscribed valid LOC!",
@@ -42,6 +43,8 @@ module.exports = {
       DATA_FOUND: "Data found",
       PASSWORD_UPDATED : "Password Updated Successfully",
       PROFILE_UPDATED : "Profile Updated",
-      UPDATE_FAILED : "Update failed"
+      UPDATE_FAILED : "Update failed",
+      PASSWORD_NOT_MATCH: "Password not matched",
+      BUSINESS_CREATE:"Business create successfully"
     },
   };

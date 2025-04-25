@@ -3,14 +3,13 @@ const authService = require("../../services/auth");
 
 
 router.post(
-  "/login",
-  authService.login
+  "/sign-up",
+  authService.signUp
 );
 
-router.post(
-  "/validate",
-  authService.login
-);
+router.post("/login", authService.login)
+
+
 
 
 module.exports = router;
