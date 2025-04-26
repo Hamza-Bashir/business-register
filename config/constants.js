@@ -45,6 +45,7 @@ module.exports = {
       PROFILE_UPDATED : "Profile Updated",
       UPDATE_FAILED : "Update failed",
       PASSWORD_NOT_MATCH: "Password not matched",
-      BUSINESS_CREATE:"Business create successfully"
+      BUSINESS_CREATE:"Business create successfully",
+      ID_NOT_FOUND:"ID is required"
     },
   };
