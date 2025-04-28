@@ -3,6 +3,7 @@ module.exports = {
     path: [
       // { url: "/sign-up", method: "POST" },
       { url: "/login", method: "POST" },
+      { url: "/sign-up", method: "POST" },
       // { url: "/all-businesses", method: "GET" },
       // { url: "/otp", method: "POST" },
       // { url: "/get-sstoken", method: "POST" },
