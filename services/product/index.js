@@ -156,6 +156,70 @@ const singleProduct = asyncErrorHandler(async (req,res)=>{
     
 })
 
+// -------------- Update Product Api -------------------
+
+const updateProduct = asyncErrorHandler(async (req,res)=>{
+    const {product_id} = req.params
+    
+    const existingProduct = await Product.findOne({
+        wwhere:{id:product_id}
+    })
+
+    if(!existingProduct){
+        return res.status(STATUS_CODES.NOT_FOUND).json({
+            statusCode:STATUS_CODES.NOT_FOUND,
+            message:TEXTS.NOT_FOUND
+        })
+    }
+
+    const updates = {}
+
+    const allowedFields = ["name", "description", "price", "quantity"]
+
+    allowedFields.forEach((field)=>{
+        if(req.body[field] !== undefined){
+            updates[field] = req.body[field]
+        }
+    })
+
+    await Product.update(updates, {
+        where:{id:product_id}
+    })
+
+    res.status(STATUS_CODES.SUCCESS).json({
+        statusCode:STATUS_CODES.SUCCESS,
+        message:TEXTS.UPDATED
+      })
+
+})
+
+// -------------- Delete Product Api -------------------
+
+const deleteProduct = asyncErrorHandler(async (req,res)=>{
+    const {product_id} = req.params
+    const existingProduct = await Product.findOne({
+        wwhere:{id:product_id}
+    })
+
+    if(!existingProduct){
+        return res.status(STATUS_CODES.NOT_FOUND).json({
+            statusCode:STATUS_CODES.NOT_FOUND,
+            message:TEXTS.NOT_FOUND
+        })
+    }
+
+    await Product.destroy({
+        where:{id:product_id}
+    })
+
+    res.status(STATUS_CODES.SUCCESS).json({
+        statusCode:STATUS_CODES.SUCCESS,
+        message:TEXTS.DELETED
+    })
+
+    
+})
 
 
-module.exports = {addProduct, getAllProduct, singleProduct}
+
+module.exports = {addProduct, getAllProduct, singleProduct, updateProduct, deleteProduct}
