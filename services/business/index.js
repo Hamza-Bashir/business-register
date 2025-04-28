@@ -5,9 +5,11 @@ const { Business, User } = require('../../models');
 
 // ------------------ Add Business  ------------------
 const addBusiness = asyncErrorHandler(async (req,res)=>{
+    
     const {name,address,contact_number, is_approved} = req.body
     
-    const existingBusiness = await Business.findOne({where:{contact_number}})
+    const existingBusiness = await Business.findOne({where:{name}})
+   
 
     if(existingBusiness){
         return res.status(STATUS_CODES.CONFLICT).json({
@@ -15,6 +17,8 @@ const addBusiness = asyncErrorHandler(async (req,res)=>{
             message:TEXTS.CONFLICT
         })
     }
+    
+    
 
     const business = await Business.create({
         user_id:req.user.id,
@@ -23,6 +27,8 @@ const addBusiness = asyncErrorHandler(async (req,res)=>{
         contact_number,
         isApproved:is_approved
     })
+
+    
     
    
 
@@ -30,6 +36,8 @@ const addBusiness = asyncErrorHandler(async (req,res)=>{
         statusCode:STATUS_CODES.SUCCESS,
         message:TEXTS.BUSINESS_CREATE
     })
+
+   
 
     
 

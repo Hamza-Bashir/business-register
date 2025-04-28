@@ -2,9 +2,9 @@ const bcrypt = require("bcrypt");
 const asyncErrorHandler = require("../../utils/asyncErrorHandler");
 const { STATUS_CODES, TEXTS } = require("../../config/constants");
 const { generateToken } = require("../../utils/jwtToken");
-const { User } = require('../../models');
+const { User, Business } = require('../../models');
 
-
+// -------------- SignUp Api ------------------
 
 const signUp = asyncErrorHandler(async (req,res)=>{
   const {name,email,password,isAdmin} = req.body
@@ -38,6 +38,9 @@ const signUp = asyncErrorHandler(async (req,res)=>{
 
 })
 
+
+// -------------- Login Api ------------------
+
 const login = asyncErrorHandler(async (req,res)=>{
   const {email,password} = req.body
 
@@ -50,7 +53,7 @@ const login = asyncErrorHandler(async (req,res)=>{
     })
   }
 
-  console.log(existingUser)
+  
 
   const isMatch = await bcrypt.compare(password, existingUser.password)
 
@@ -63,13 +66,23 @@ const login = asyncErrorHandler(async (req,res)=>{
 
   const token = generateToken(existingUser)
 
+  const allBusiness = await Business.findAll({
+    where:{user_id:existingUser.id},
+    attributes:["id", "name", "address", "contact_number", "isApproved"]
+  })
+
   res.status(STATUS_CODES.SUCCESS).json({
     statusCode: STATUS_CODES.SUCCESS,
     message:TEXTS.LOGIN,
+    allBusiness,
     token
   })
 
 })
+
+
+
+
 module.exports = {
   signUp,
   login

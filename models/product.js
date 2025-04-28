@@ -5,7 +5,11 @@ const { Model, DataTypes } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Product extends Model {
     static associate(models) {
-      Product.belongsTo(models.Category, { foreignKey: 'category_id', as: 'category' });
+      Product.belongsTo(models.Category, { foreignKey: 'category_id', as: 'category' }),
+      Product.belongsTo(models.Business, {
+        foreignKey:"business_id",
+        as:'business'
+      })
     }
   }
 
@@ -18,6 +22,10 @@ module.exports = (sequelize, DataTypes) => {
     category_id: {
       type: DataTypes.UUID,
       allowNull: false,
+    },
+    business_id:{
+      type:DataTypes.UUID,
+      allowNull:false
     },
     name: {
       type: DataTypes.STRING,
