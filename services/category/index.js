@@ -62,9 +62,12 @@ const getAllCategory = asyncErrorHandler(async (req,res)=>{
 
     const {id} = req.params
     const allCategory = await Category.findAll({
-        where:{
-            business_id:id
-        }
+        attributes:["id","name"],
+        include:[{
+            model:Business,
+            as:"business",
+            attributes:["id","name","address","contact_number"]
+        }]
     })
 
     if(!allCategory){
@@ -95,15 +98,13 @@ const getSingleCategory = asyncErrorHandler(async (req, res) => {
     }
 
     
-    const businessExists = await Business.findOne({ where: { id: business_id, user_id: req.user.id } });
-    
-
-    
     const category = await Category.findOne({
-        where: {
-            business_id: business_id,
-            id: category_id
-        }
+        attributes:["id","name"],
+        include:[{
+            model:Business,
+            as:"business",
+            attributes:["id","name","address","contact_number"]
+        }]
     });
 
     if (!category) {
@@ -114,7 +115,7 @@ const getSingleCategory = asyncErrorHandler(async (req, res) => {
     }
 
     
-    return res.status(STATUS_CODES.SUCCESS).json({
+    res.status(STATUS_CODES.SUCCESS).json({
         statusCode: STATUS_CODES.SUCCESS,
         message: TEXTS.FOUND,
         category
@@ -159,4 +160,27 @@ const updateCategory = asyncErrorHandler(async (req,res)=>{
 })
 
 
-module.exports = {addCategory, getAllCategory, getSingleCategory, updateCategory}
+// --------------- Delete Category ------------------
+
+const deleteCategory = asyncErrorHandler(async (req,res)=>{
+    const {category_id} = req.query
+
+    if(!category_id){
+        return res.status(STATUS_CODES.NOT_FOUND).json({
+            statusCode:STATUS_CODES.NOT_FOUND,
+            message:TEXTS.ID_NOT_FOUND
+        })
+    }
+
+    await Category.destroy({
+        where:{id:category_id}
+    })
+
+    res.status(STATUS_CODES.SUCCESS).json({
+        statusCode:STATUS_CODES.SUCCESS,
+        message:TEXTS.DELETED
+    })
+})
+
+
+module.exports = {addCategory, getAllCategory, getSingleCategory, updateCategory, deleteCategory}
