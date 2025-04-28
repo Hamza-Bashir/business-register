@@ -1,6 +1,6 @@
 const asyncErrorHandler = require("../../utils/asyncErrorHandler");
 const { STATUS_CODES, TEXTS } = require("../../config/constants");
-const { Business } = require('../../models');
+const { Business, User } = require('../../models');
 
 
 // ------------------ Add Business  ------------------
@@ -42,7 +42,12 @@ const addBusiness = asyncErrorHandler(async (req,res)=>{
 const getAllBusiness = asyncErrorHandler(async (req,res)=>{
     
     const allBusinesses = await Business.findAll({
-        where:{user_id:req.user.id}
+        attributes:["id","name","address","contact_number","isApproved"],
+        include:[{
+            model:User,
+            as:"user",
+            attributes:["id","name","email"]
+        }]
     })
     
 
@@ -58,7 +63,7 @@ const getAllBusiness = asyncErrorHandler(async (req,res)=>{
     res.status(STATUS_CODES.SUCCESS).json({
         statusCode:STATUS_CODES.SUCCESS,
         message:TEXTS.FOUND,
-        allBusinesses
+        Business:allBusinesses
     })
 
    
@@ -79,7 +84,12 @@ const getSingleBusiness = asyncErrorHandler(async (req,res)=>{
     }
 
     const getBusiness = await Business.findOne({
-        where:{id:id}
+        attributes:["id","name","address","contact_number","isApproved"],
+        include:[{
+            model:User,
+            as:"user",
+            attributes:["id","name","email"]
+        }]
     })
 
     if(!getBusiness){
@@ -92,7 +102,7 @@ const getSingleBusiness = asyncErrorHandler(async (req,res)=>{
     res.status(STATUS_CODES.SUCCESS).json({
         statusCode:STATUS_CODES.SUCCESS,
         message:TEXTS.FOUND,
-        getBusiness
+        Business:getBusiness
     })
 })
 
