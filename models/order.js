@@ -6,7 +6,8 @@ module.exports = (sequelize, DataTypes) => {
   class Order extends Model {
     static associate(models) {
       Order.belongsTo(models.Customer, { foreignKey: "customer_id", as: "customer" });
-      Order.belongsTo(models.Product, { foreignKey: "product_id", as: "product" });  
+      Order.belongsTo(models.Product, { foreignKey: "product_id", as: "product" }); 
+      Order.belongsTo(models.Business, { foreignKey: "business_id", as: "business" });  
     }
   }
 
@@ -21,6 +22,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     product_id: {
+      type: DataTypes.UUID,
+      allowNull: false
+    },
+    business_id: {
       type: DataTypes.UUID,
       allowNull: false
     }
