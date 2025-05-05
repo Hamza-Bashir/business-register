@@ -42,6 +42,7 @@ const signUp = asyncErrorHandler(async (req,res)=>{
 // -------------- Login Api ------------------
 
 const login = asyncErrorHandler(async (req,res)=>{
+
   const {email,password} = req.body
 
   const existingUser = await User.findOne({where:{email}, raw:true} )
@@ -52,8 +53,6 @@ const login = asyncErrorHandler(async (req,res)=>{
       message:TEXTS.NOT_FOUND
     })
   }
-
-  
 
   const isMatch = await bcrypt.compare(password, existingUser.password)
 
