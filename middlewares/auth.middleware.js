@@ -1,5 +1,6 @@
 const { verifyJWTToken } = require("../utils/jwtToken");
 const { STATUS_CODES, TEXTS } = require("../config/constants");
+const allowRoute = require("../config/allowRoute")
 
 const authenticate = async (req, res, next) => {
  
@@ -19,6 +20,17 @@ const authenticate = async (req, res, next) => {
         .json({ message: TEXTS.INVALID_AUTH_TOKEN });
     } else {
       req.user = result.decoded;
+
+      const isAdmin = !!req.user.isAdmin
+
+      const matchedRoute = allowRoute.find((route)=>
+        route.path.test(req.path) &&
+        route.method.toLowerCase() === req.method.toLowerCase()
+      )
+
+      if (matchedRoute.isAdmin !== isAdmin) {
+        return res.status(403).json({ message: "Access denied, Is only admin available" });
+      }
      
       next();
     }

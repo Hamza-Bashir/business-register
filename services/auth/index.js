@@ -4,6 +4,7 @@ const { STATUS_CODES, TEXTS } = require("../../config/constants");
 const { generateToken } = require("../../utils/jwtToken");
 const { User, Business } = require('../../models');
 
+
 // -------------- SignUp Api ------------------
 
 const signUp = asyncErrorHandler(async (req,res)=>{
