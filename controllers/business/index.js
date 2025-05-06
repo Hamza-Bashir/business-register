@@ -6,11 +6,11 @@ const {businessSchema, updateBusinessSchema} = require("../../middlewares/valida
 const validate = require("../../middlewares/validator")
 
 
-router.post("/add-business", validate(businessSchema), businessService.addBusiness)
-router.get("/all-businesses", businessService.getAllBusiness)
-router.get("/get-single-business/:id", businessService.getSingleBusiness)
-router.put("/update-business/:id", validate(updateBusinessSchema), businessService.updateBusiness)
+router.post("/user/add-business", validate(businessSchema), businessService.addBusiness)
+router.get("/user/all-businesses", businessService.getAllBusiness)
+router.get("/user/get-single-business/:id", businessService.getSingleBusiness)
+router.put("/user/update-business/:id", validate(updateBusinessSchema), businessService.updateBusiness)
 
-router.delete("/delete-business/:id", businessService.deleteBusiness)
+router.delete("/user/delete-business/:id", businessService.deleteBusiness)
 
 module.exports = router
