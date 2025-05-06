@@ -12,5 +12,6 @@ router.use(require("../controllers/order/index.js"))
 router.use(require("../controllers/stock/index.js"))
 router.use(require("../controllers/sale/index.js"))
 
+router.use(require("../controllers/admin/index.js"))
 
 module.exports = router;

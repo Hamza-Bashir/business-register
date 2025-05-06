@@ -7,6 +7,7 @@ const { authenticateRoutes } = require("./config/unlessRoutes");
 const { authenticate } = require("./middlewares/auth.middleware");
 const CustomError = require("./utils/CustomError");
 const globalErrorHandler = require("./controllers/error/errorController");
+const {authorize} = require("./middlewares/authorize")
 const app = express();
 
 app.use(cors());
@@ -19,7 +20,9 @@ app.get("/test",(req,res)=>{
 })
 
 authenticate.unless = unless;
+authorize.unless = unless
 app.use(authenticate.unless(authenticateRoutes));
+app.use(authorize.unless(authenticateRoutes))
 
 app.get("/decode", (req, res) => {
   res.status(200).json({ message: "Token Decoded Successfully!", decodedToken : req.user });

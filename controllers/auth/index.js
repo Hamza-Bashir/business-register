@@ -7,7 +7,7 @@ router.post(
   authService.signUp
 );
 
-router.post("/login", authService.login)
+router.post("/user/login", authService.login)
 
 
 
