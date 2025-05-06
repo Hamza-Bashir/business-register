@@ -1,5 +1,6 @@
 const { verifyJWTToken } = require("../utils/jwtToken");
 const { STATUS_CODES, TEXTS } = require("../config/constants");
+const allowRoute = require("../config/allowRoute")
 
 const authenticate = async (req, res, next) => {
  
@@ -19,7 +20,6 @@ const authenticate = async (req, res, next) => {
         .json({ message: TEXTS.INVALID_AUTH_TOKEN });
     } else {
       req.user = result.decoded;
-      
      
       next();
       
